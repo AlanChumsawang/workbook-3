@@ -28,18 +28,21 @@ public class FamousQuotes {
                     Choose a number 1 - 10: 
                     """);
 
+            String keepGoing = null;
             try {
                 int userInput = inputscanner.nextInt();
                 inputscanner.nextLine();
                 System.out.println("\n\n" + quotes[userInput]);
-            } catch (Exception ArrayIndexOutOfBoundsException) {
+                System.out.println("\nKeep Going? Y/N");
+                keepGoing = inputscanner.nextLine();
+
+            } catch (Exception e) {
                 System.out.println("\nInvalid Entry. Enter a number 1-10");
             }
-            System.out.println("\nKeep Going? Y/N");
-            String keepGoing = inputscanner.nextLine();
-            try {
             if (Objects.equals(keepGoing, "N") || Objects.equals(keepGoing, "n")) {
                 on = false;
+
+
             }
         }
     }
