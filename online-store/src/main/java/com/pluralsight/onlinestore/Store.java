@@ -46,7 +46,9 @@ public class Store {
         if (userChoice.equalsIgnoreCase("y") ){
             addProductToCart(scanner);
         }
-        el
+        else {
+            displayMenu(scanner);
+        }
     }
 
     public void checkout() {
@@ -57,6 +59,13 @@ public class Store {
         System.out.println("Your cart:\n");
         if (cart.isEmpty()) {
             System.out.println("Your cart is empty");
+            System.out.println("See Inventory? (y/n)");
+            String userChoice = scanner.nextLine();
+            if (userChoice.equalsIgnoreCase("y")) {
+                displayInventory(scanner);
+            } else {
+                displayMenu(scanner);
+            }
         } else {
             for (Products product : cart) {
                 System.out.println(product.getProductName());
@@ -76,6 +85,7 @@ public class Store {
                     System.out.println("Enter the SKU of the product you would like to remove: ");
                     String productSku = scanner.nextLine().trim().toUpperCase();
                     removeProduct(productSku);
+                    displayCart(scanner);
                     break;
                 case 3:
                     System.out.println("Exiting");
@@ -97,20 +107,25 @@ public class Store {
         while (continueShopping) {
             System.out.println("Enter the sku of the product you would like to add to your cart: ");
             String productSku = scanner.nextLine();
+            boolean productFound = false;
             for (Products items : storeInventory) {
                 if (items.getSku().equalsIgnoreCase(productSku)) {
+                    productFound = true;
                     cart.add(items);
-                    System.out.println("Product added to cart");
+                    System.out.println("\nProduct added to cart\n");
                     System.out.println("Continue shopping? (y/n)");
                     char continueShoppingChoice = scanner.next().charAt(0);
                     scanner.nextLine();
                     if (continueShoppingChoice == 'n') {
                         continueShopping = false;
+                        displayCart(scanner);
                     }
                 }
             }
+            if (!productFound) {
+                System.out.println("\n\nProduct not found\n\n");
+            }
         }
-
     }
 
     public void removeProduct(String productSku) {
@@ -121,7 +136,7 @@ public class Store {
                 return;
             }
         }
-        System.out.println("Product not found");
+        System.out.println("\n\nProduct not found. Try Again\n\n");
     }
 
     public void displayMenu(Scanner scanner) {
