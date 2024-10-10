@@ -2,7 +2,10 @@ package com.pluralsight;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
+
+
 
 public class PayrollCalculator {
     private static final ArrayList<Employees> employeesList = new ArrayList<>();
@@ -56,16 +59,41 @@ public class PayrollCalculator {
     }
 
     public static void writeEmployeeData(String newFileName) {
-        try{
-            FileWriter fileWriter = new FileWriter(newFileName);
-            BufferedWriter bufWriter = new BufferedWriter(fileWriter);
-            bufWriter.write("id|name|gross pay\n");
-            for (Employees employee : employeesList) {
-                bufWriter.write(employee.getEmployeeID() + "|" + employee.getName(employee) + "|" + employee.getHoursWorked(employee) + "|" + employee.getPayRate(employee) + "\n");
+        String extension = newFileName.split("\\.")[1];
+        System.out.println("Creating your " + extension + " file...");
+        if (Objects.equals(extension, "csv")) {
+            try {
+                FileWriter fileWriter = new FileWriter(newFileName);
+                BufferedWriter bufWriter = new BufferedWriter(fileWriter);
+                bufWriter.write("id|name|gross pay\n");
+                for (Employees employee : employeesList) {
+                    bufWriter.write(employee.getEmployeeID() + "|" + employee.getName(employee) + "|" + employee.getHoursWorked(employee) + "|" + employee.getPayRate(employee) + "\n");
+                }
+                bufWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            bufWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else if (Objects.equals(extension, "json")) {
+            try {
+                FileWriter fileWriter = new FileWriter(newFileName);
+                BufferedWriter bufWriter = new BufferedWriter(fileWriter);
+                bufWriter.write("[\n");
+                for (Employees employee : employeesList) {
+                    bufWriter.write("  {\n");
+                    bufWriter.write("    \"id\": " + employee.getEmployeeID() + ",\n");
+                    bufWriter.write("    \"name\": \"" + employee.getName(employee) + "\",\n");
+                    bufWriter.write("    \"hours worked\": " + employee.getHoursWorked(employee) + ",\n");
+                    bufWriter.write("    \"pay rate\": " + employee.getPayRate(employee) + "\n");
+                    bufWriter.write("  },\n");
+                }
+                bufWriter.write("]");
+                bufWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            System.out.println("Invalid file extension. File must be either .csv or .json");
         }
     }
 

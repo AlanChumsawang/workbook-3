@@ -1,0 +1,50 @@
+[
+  {
+    "id": 10,
+    "name": "Dana Wyatt",
+    "hours worked": 52.5,
+    "pay rate": 12.5
+  },
+  {
+    "id": 20,
+    "name": "Ezra Aiden",
+    "hours worked": 17.0,
+    "pay rate": 16.75
+  },
+  {
+    "id": 30,
+    "name": "Brittany Thibbs",
+    "hours worked": 40.0,
+    "pay rate": 16.5
+  },
+  {
+    "id": 40,
+    "name": "Zephaniah Hughes",
+    "hours worked": 2.0,
+    "pay rate": 10.0
+  },
+  {
+    "id": 50,
+    "name": "Caylee Callahan",
+    "hours worked": 35.0,
+    "pay rate": 15.5
+  },
+  {
+    "id": 60,
+    "name": "Zane Stephens",
+    "hours worked": 45.0,
+    "pay rate": 13.5
+  },
+  {
+    "id": 70,
+    "name": "Maverick Cummings",
+    "hours worked": 25.5,
+    "pay rate": 16.5
+  },
+  {
+    "id": 80,
+    "name": "Kamari Todd",
+    "hours worked": 32.0,
+    "pay rate": 14.5
+  },
+]
