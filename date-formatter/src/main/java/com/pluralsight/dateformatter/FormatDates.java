@@ -10,15 +10,16 @@ public class FormatDates {
         LocalDateTime today = LocalDateTime.now();
         System.out.println("Today is: " + today);
 
-        DateTimeFormatter dayMDY =
+        DateTimeFormatter MDY =
                 DateTimeFormatter.ofPattern("MMM-dd-yyyy ");
         DateTimeFormatter time =
                 DateTimeFormatter.ofPattern("HH:mm");
 
 
         String formattedTime = today.format(time);
-        String formattedDate = today.format(dayMDY);
+        String formattedDate = today.format(MDY);
         System.out.println(formattedTime + " on " + formattedDate);
+
 
     }
 
