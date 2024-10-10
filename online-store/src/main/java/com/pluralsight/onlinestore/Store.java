@@ -3,7 +3,6 @@ package com.pluralsight.onlinestore;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Store {
@@ -43,10 +42,9 @@ public class Store {
         }
         System.out.println("Would you like to add a product to your cart? (y/n)");
         String userChoice = scanner.nextLine();
-        if (userChoice.equalsIgnoreCase("y") ){
+        if (userChoice.equalsIgnoreCase("y")) {
             addProductToCart(scanner);
-        }
-        else {
+        } else {
             displayMenu(scanner);
         }
     }
@@ -141,7 +139,7 @@ public class Store {
 
     public void displayMenu(Scanner scanner) {
         System.out.print("""
-
+                
                                           ████████╗██╗  ██╗███████╗                      \s
                                           ╚══██╔══╝██║  ██║██╔════╝                      \s
                                              ██║   ███████║█████╗                        \s
@@ -160,11 +158,11 @@ public class Store {
                                           ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝       \s
                                           ███████║   ██║   ╚██████╔╝██║  ██║███████╗     \s
                                           ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝     \s     \s
-
+                
                 1: Display Inventory
                 2: Display Cart
                 3: Exit
-
+                
                 Choose an option: """);
         int choice = scanner.nextInt();
         scanner.nextLine();

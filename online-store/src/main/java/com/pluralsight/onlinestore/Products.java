@@ -2,7 +2,7 @@ package com.pluralsight.onlinestore;
 
 public class Products {
     private String sku;
-    private String  productName;
+    private String productName;
     private double price;
     private String department;
 
