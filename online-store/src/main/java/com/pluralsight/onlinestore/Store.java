@@ -1,9 +1,9 @@
 package com.pluralsight.onlinestore;
 
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Store {
     ArrayList<Products> storeInventory = new ArrayList<Products>();
@@ -14,12 +14,70 @@ public class Store {
         this.cart = new ArrayList<Products>();
     }
 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Store store = new Store(new ArrayList<Products>());
+        store.getInventory();
+        store.displayMenu(scanner);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void getReceipt(double totalPaid) {
+        LocalDateTime today = LocalDateTime.now();
+        DateTimeFormatter MDY = DateTimeFormatter.ofPattern("MMM-dd-yyyy ");
+        String formattedDate = today.format(MDY);
+        System.out.println("\n\nHere is Your Receipt:\nDate:  " + formattedDate);
+        for (Products product : cart) {
+            System.out.println("Items Purchased:");
+            System.out.println(product.getProductName());
+            System.out.println("    " + "SKU: " + product.getSku());
+            System.out.printf("    " + "$%.2f \n", product.getPrice());
+            System.out.println("    " + "Department: " + product.getDepartment() + "\n");
+        }
+        double total = calculateTotal(cart);
+        System.out.println("Total: $%.2f" + total);
+        System.out.printf("Total Paid: $%.2f\n", totalPaid);
+        System.out.printf("Change: $%.2f\n", (totalPaid - total));
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("receipts/" + formattedDate + ".txt"))) {
+            bufferedWriter.write("Items Purchased:\n\n");
+            for (Products product : cart) {
+                bufferedWriter.write(product.getProductName() + "\n");
+                bufferedWriter.write("    " + "SKU: " + product.getSku() + "\n");
+                bufferedWriter.write("    " + "$" + product.getPrice() + "\n");
+                bufferedWriter.write("    " + "Department: " + product.getDepartment() + "\n");
+            }
+            bufferedWriter.write("\n\nTotal: $%.2f" + total + "\n");
+            bufferedWriter.write("Total Paid: $%.2f" + totalPaid + "\n");
+            bufferedWriter.write("Change: $%.2f" + (totalPaid - total) + "\n");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void getInventory() {
         try {
             FileReader fileReader = new FileReader("src/main/resources/products.csv");
             BufferedReader bufReader = new BufferedReader(fileReader);
             String input = bufReader.readLine();
-            while ((input = bufReader.readLine()) != null) {
+            while ( (input = bufReader.readLine() ) != null) {
                 String[] productInfo = input.split("[|]");
                 String sku = productInfo[0];
                 String productName = productInfo[1];
@@ -34,8 +92,21 @@ public class Store {
     }
 
     public void checkout() {
-        
-        System.out.println("Checking out");
+        System.out.println("How would you like to pay?");
+        System.out.println("1: Cash\n2: Card");
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        switch (choice) {
+            case 1:
+                System.out.print("Cash Inserted: ");
+                double totalPaid = scanner.nextDouble();
+                getReceipt(totalPaid);
+                break;
+            case 2:
+                getReceipt(calculateTotal(cart));
+                break;
+        }
     }
 
     public void displayCart(Scanner scanner) {
@@ -110,6 +181,7 @@ public class Store {
             }
         }
     }
+
     public void displayInventory(Scanner scanner) {
         for (Products product : storeInventory) {
             System.out.println(product.getProductName());
@@ -159,6 +231,7 @@ public class Store {
                 break;
         }
     }
+
     public void searchByName(Scanner scanner) {
         System.out.println("Enter the name of the product you would like to search for: ");
         String search = scanner.nextLine();
@@ -177,8 +250,7 @@ public class Store {
                 } else {
                     displayMenu(scanner);
                 }
-            }
-            else if (product.getProductName().toLowerCase().contains(search.toLowerCase())) {
+            } else if (product.getProductName().toLowerCase().contains(search.toLowerCase())) {
                 System.out.println("No exact match found. Here are some similar products:");
                 System.out.println(product.getProductName());
                 System.out.println("    " + "SKU: " + product.getSku());
@@ -214,8 +286,7 @@ public class Store {
                 } else {
                     displayMenu(scanner);
                 }
-            }
-            else if (product.getDepartment().toLowerCase().contains(search.toLowerCase())) {
+            } else if (product.getDepartment().toLowerCase().contains(search.toLowerCase())) {
                 System.out.println("No exact match found. Here are some similar products:");
                 System.out.println(product.getProductName());
                 System.out.println("    " + "SKU: " + product.getSku());
@@ -298,8 +369,7 @@ public class Store {
                     System.out.println("Invalid choice");
                     displayMenu(scanner);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Invalid choice");
             scanner.nextLine();
             displayMenu(scanner);
@@ -307,10 +377,4 @@ public class Store {
 
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Store store = new Store(new ArrayList<Products>());
-        store.getInventory();
-        store.displayMenu(scanner);
-    }
 }

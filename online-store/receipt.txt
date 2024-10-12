@@ -1,0 +1,7 @@
+Solar Powered Battery Charger
+    SKU: PW1341
+    $19.99
+    Department: Electronics
+Total: $19.99
+Total Paid: $22.02
+Change: $2.030000000000001
