@@ -1,0 +1,11 @@
+Items Purchased:
+
+Retro Handheld Arcade
+    SKU: GM1148
+    $24.45
+    Department: Games
+
+
+Total: $24.45
+Total Paid: $40.00
+Change: $15.55

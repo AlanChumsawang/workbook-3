@@ -4,16 +4,16 @@ Wireless Charger iPhone
     SKU: PW1431
     $12.99
     Department: Electronics
-Wireless Charger iPhone
-    SKU: PW1431
-    $12.99
-    Department: Electronics
 Solar Powered Battery Charger
     SKU: PW1341
     $19.99
     Department: Electronics
+USB C to A Cable
+    SKU: PW1255
+    $13.95
+    Department: Electronics
 
 
-Total: $45.97
-Total Paid: $50.0
-Change: $4.030000000000001
+Total: $46.93
+Total Paid: $100.00
+Change: $53.07

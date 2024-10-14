@@ -1,0 +1,11 @@
+Items Purchased:
+
+Wireless Charger iPhone
+    SKU: PW1431
+    $12.99
+    Department: Electronics
+
+
+Total: $12.99
+Total Paid: $20.00
+Change: $7.01

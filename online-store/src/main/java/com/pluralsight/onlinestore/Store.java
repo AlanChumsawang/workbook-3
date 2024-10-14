@@ -40,20 +40,30 @@ public class Store {
 
 
 
+
+
+
+
+
+
+
+
+
+
     public void getReceipt(double totalPaid) {
         LocalDateTime today = LocalDateTime.now();
-        DateTimeFormatter MDY = DateTimeFormatter.ofPattern("MMM-dd-yyyy ");
+        DateTimeFormatter MDY = DateTimeFormatter.ofPattern("hh:mm-MMM-dd-yyyy");
         String formattedDate = today.format(MDY);
         System.out.println("\n\nHere is Your Receipt:\nDate:  " + formattedDate);
+        System.out.println("Items Purchased:");
         for (Products product : cart) {
-            System.out.println("Items Purchased:");
             System.out.println(product.getProductName());
             System.out.println("    " + "SKU: " + product.getSku());
-            System.out.printf("    " + "$%.2f \n", product.getPrice());
+            System.out.printf("    $%.2f\n", product.getPrice());
             System.out.println("    " + "Department: " + product.getDepartment() + "\n");
         }
         double total = calculateTotal(cart);
-        System.out.println("Total: $%.2f" + total);
+        System.out.printf("Total: $%.2f\n", total);
         System.out.printf("Total Paid: $%.2f\n", totalPaid);
         System.out.printf("Change: $%.2f\n", (totalPaid - total));
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("receipts/" + formattedDate + ".txt"))) {
@@ -61,12 +71,12 @@ public class Store {
             for (Products product : cart) {
                 bufferedWriter.write(product.getProductName() + "\n");
                 bufferedWriter.write("    " + "SKU: " + product.getSku() + "\n");
-                bufferedWriter.write("    " + "$" + product.getPrice() + "\n");
+                bufferedWriter.write(String.format("    $%.2f\n", product.getPrice()));
                 bufferedWriter.write("    " + "Department: " + product.getDepartment() + "\n");
             }
-            bufferedWriter.write("\n\nTotal: $%.2f" + total + "\n");
-            bufferedWriter.write("Total Paid: $%.2f" + totalPaid + "\n");
-            bufferedWriter.write("Change: $%.2f" + (totalPaid - total) + "\n");
+            bufferedWriter.write(String.format("\n\nTotal: $%.2f\n", total));
+            bufferedWriter.write(String.format("Total Paid: $%.2f\n", totalPaid));
+            bufferedWriter.write(String.format("Change: $%.2f\n", (totalPaid - total)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -77,7 +87,7 @@ public class Store {
             FileReader fileReader = new FileReader("src/main/resources/products.csv");
             BufferedReader bufReader = new BufferedReader(fileReader);
             String input = bufReader.readLine();
-            while ( (input = bufReader.readLine() ) != null) {
+            while ((input = bufReader.readLine()) != null) {
                 String[] productInfo = input.split("[|]");
                 String sku = productInfo[0];
                 String productName = productInfo[1];
@@ -101,6 +111,7 @@ public class Store {
             case 1:
                 System.out.print("Cash Inserted: ");
                 double totalPaid = scanner.nextDouble();
+                scanner.nextLine();
                 getReceipt(totalPaid);
                 break;
             case 2:
@@ -127,7 +138,7 @@ public class Store {
                 System.out.printf("    " + "$" + product.getPrice() + "\n");
                 System.out.println("    " + "Department: " + product.getDepartment() + "\n");
             }
-            System.out.println("Total: $ " + calculateTotal(cart));
+            System.out.printf("Total: $%.2f\n", calculateTotal(cart));
             System.out.println("\n1: Checkout\n2: Remove product\n3: Go Back");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -142,7 +153,7 @@ public class Store {
                     displayCart(scanner);
                     break;
                 case 3:
-                    displayCart(scanner);
+                    displayMenu(scanner);
                     break;
             }
         }
@@ -242,29 +253,21 @@ public class Store {
                 System.out.println("    " + "SKU: " + product.getSku());
                 System.out.printf("    " + "$ " + product.getPrice() + "\n");
                 System.out.println("    " + "Department: " + product.getDepartment() + "\n");
-                System.out.println("Would you like to add this product to your cart? (y/n)");
-                char userChoice = scanner.next().charAt(0);
-                scanner.nextLine();
-                if (userChoice == 'y') {
-                    cart.add(product);
-                } else {
-                    displayMenu(scanner);
-                }
+
             } else if (product.getProductName().toLowerCase().contains(search.toLowerCase())) {
-                System.out.println("No exact match found. Here are some similar products:");
                 System.out.println(product.getProductName());
                 System.out.println("    " + "SKU: " + product.getSku());
                 System.out.printf("    " + "$ " + product.getPrice() + "\n");
                 System.out.println("    " + "Department: " + product.getDepartment() + "\n");
-                System.out.println("Would you like to add this product to your cart? (y/n)");
-                char userChoice = scanner.next().charAt(0);
-                scanner.nextLine();
-                if (userChoice == 'y') {
-                    cart.add(product);
-                } else {
-                    displayMenu(scanner);
-                }
             }
+        }
+        System.out.println("Would you like to add A product to your cart? (y/n)");
+        char userChoice = scanner.next().charAt(0);
+        scanner.nextLine();
+        if (userChoice == 'y') {
+           addProductToCart(scanner);
+        } else {
+            displayMenu(scanner);
         }
     }
 
@@ -274,20 +277,6 @@ public class Store {
 
         for (Products product : storeInventory) {
             if (product.getDepartment().toLowerCase().equals(search.toLowerCase())) {
-                System.out.println(product.getProductName());
-                System.out.println("    " + "SKU: " + product.getSku());
-                System.out.printf("    " + "$ " + product.getPrice() + "\n");
-                System.out.println("    " + "Department: " + product.getDepartment() + "\n");
-                System.out.println("Would you like to add this product to your cart? (y/n)");
-                char userChoice = scanner.next().charAt(0);
-                scanner.nextLine();
-                if (userChoice == 'y') {
-                    cart.add(product);
-                } else {
-                    displayMenu(scanner);
-                }
-            } else if (product.getDepartment().toLowerCase().contains(search.toLowerCase())) {
-                System.out.println("No exact match found. Here are some similar products:");
                 System.out.println(product.getProductName());
                 System.out.println("    " + "SKU: " + product.getSku());
                 System.out.printf("    " + "$ " + product.getPrice() + "\n");
