@@ -5,15 +5,24 @@ import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/***********************************************************
+ *  Store Class attributes contains ArrayList of Products and Cart
+ ***********************************************************/
 public class Store {
     ArrayList<Products> storeInventory = new ArrayList<Products>();
     ArrayList<Products> cart = new ArrayList<Products>();
-
+/***********************************************************
+ *  Store Class Constructor initializing storeInventory ArrayList and cart ArrayList
+ ***********************************************************/
     public Store(ArrayList<Products> storeInventory) {
         this.storeInventory = storeInventory;
         this.cart = new ArrayList<Products>();
     }
 
+/***********************************************************
+ *  Main Method
+ ***********************************************************/
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Store store = new Store(new ArrayList<Products>());
@@ -49,7 +58,9 @@ public class Store {
 
 
 
-
+/***********************************************************
+ *  Method to get Receipt and write to file to receipts folder
+ ***********************************************************/
     public void getReceipt(double totalPaid) {
         LocalDateTime today = LocalDateTime.now();
         DateTimeFormatter MDY = DateTimeFormatter.ofPattern("hh:mm-MMM-dd-yyyy");
@@ -82,6 +93,10 @@ public class Store {
         }
     }
 
+
+/***********************************************************
+ *  Method to get Inventory from products.csv file
+ ***********************************************************/
     public void getInventory() {
         try {
             FileReader fileReader = new FileReader("src/main/resources/products.csv");
@@ -101,6 +116,9 @@ public class Store {
         }
     }
 
+/***********************************************************
+ *  Method to check out and pay for items in cart
+ ***********************************************************/
     public void checkout() {
         System.out.println("How would you like to pay?");
         System.out.println("1: Cash\n2: Card");
@@ -120,6 +138,9 @@ public class Store {
         }
     }
 
+/***********************************************************
+ *  Method to display Cart when user chooses to view cart
+ ***********************************************************/
     public void displayCart(Scanner scanner) {
         System.out.println("Your cart:\n");
         if (cart.isEmpty()) {
@@ -159,6 +180,9 @@ public class Store {
         }
     }
 
+/***********************************************************
+ *  Method to calculate total of items in cart
+ ***********************************************************/
     public double calculateTotal(ArrayList<Products> cart) {
         double total = 0;
         for (Products product : cart) {
@@ -167,6 +191,9 @@ public class Store {
         return total;
     }
 
+/***********************************************************
+ *  Method to add product to cart
+ ***********************************************************/
     public void addProductToCart(Scanner scanner) {
         boolean continueShopping = true;
         while (continueShopping) {
@@ -193,6 +220,9 @@ public class Store {
         }
     }
 
+/***********************************************************
+ *  Method to display entire Inventory
+ ***********************************************************/
     public void displayInventory(Scanner scanner) {
         for (Products product : storeInventory) {
             System.out.println(product.getProductName());
@@ -218,6 +248,9 @@ public class Store {
         }
     }
 
+/***********************************************************
+ *  Method to remove product from cart
+ ***********************************************************/
     public void removeProduct(String productSku) {
         for (Products product : cart) {
             if (product.getSku().equals(productSku)) {
@@ -229,6 +262,9 @@ public class Store {
         System.out.println("\n\nProduct not found. Try Again\n\n");
     }
 
+/***********************************************************
+ *  Method is used to get user input for how they would like to search the inventory then calls the appropriate search method
+ ***********************************************************/
     public void searchInventory(int Type, Scanner scanner) {
         switch (Type) {
             case 1:
@@ -243,6 +279,9 @@ public class Store {
         }
     }
 
+/***********************************************************
+ *  Method that searches the inventory by name and displays the product information
+ ***********************************************************/
     public void searchByName(Scanner scanner) {
         System.out.println("Enter the name of the product you would like to search for: ");
         String search = scanner.nextLine();
@@ -271,6 +310,9 @@ public class Store {
         }
     }
 
+/***********************************************************
+ *  Method that searches the inventory by department and displays the product information
+ ***********************************************************/
     public void searchByDepartment(Scanner scanner) {
         System.out.println("Enter the department of the product you would like to search for: ");
         String search = scanner.nextLine();
@@ -293,6 +335,9 @@ public class Store {
         }
     }
 
+/***********************************************************
+ *  Method that searches the inventory by price and returns products that are less than or equal to the price entered
+ ***********************************************************/
     public void searchByPrice(Scanner scanner) {
         System.out.println("Enter the maximum price of the product you would like to search for: ");
         String search = scanner.nextLine();
@@ -313,7 +358,9 @@ public class Store {
         }
     }
 
-
+/***********************************************************
+ *  Method to display Menu allowing user to choose to display Inventory, Cart, or Exit
+ ***********************************************************/
     public void displayMenu(Scanner scanner) {
         System.out.print("""
                 
